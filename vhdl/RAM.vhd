@@ -20,15 +20,16 @@ architecture synth of RAM is
 	SIGNAL s_read : std_logic_vector(31 downto 0);
 	SIGNAL s_address : std_logic_vector(9 downto 0);
 	SIGNAL s_enable : std_logic;
+	Signal reg:reg_type; --IMPORTANT: creer ce signal autrement reg_type(s_integer_address) devient un cast vers type reg_type
 
-	SIGNAL s_integer_address : integer;
+	SIGNAL s_integer_address : integer:=0;
 
 
 begin
 
-	s_integer_address <= to_integer(unsigned(address));
+	s_integer_address<=to_integer(unsigned(address));
 
-	s_read <= reg_type(s_integer_address);
+	s_read<=reg(s_integer_address);
 
 
 	dff : process(clk) is
@@ -47,7 +48,12 @@ begin
 	begin
 
 		if rising_edge(clk) then
-			rddata <= s_read when (s_enable = '1') else (others=>'Z');
+			if(s_enable = '1') then
+				rddata <= s_read;
+			else
+				rddata <= (others=>'Z');
+			end if;
+			--rddata <= s_read when (s_enable = '1') else (others=>'Z');
 		end if;
 
 	end process triStateBuffer;
@@ -59,12 +65,12 @@ begin
 
 		if rising_edge(clk) then
 			if (write = '1' and cs = '1') then
-				reg_type(s_integer_address) <= wrdata;
+				reg(s_integer_address) <= wrdata;
 
 			end if;
 		end if;
 
-	end process readRAM;
+	end process writeRAM;
 
 
 end synth;
