@@ -23,7 +23,7 @@ begin
 		if (address >= x"0000" and address <= x"0FFC") then 
 			cs_ROM <= '1';
 		elsif (address >= x"1000" and address <= x"1FFC") then 
-			cs_ROM <= '1';
+			cs_RAM <= '1';
 		elsif (address >= x"2000" and address <= x"200C") then
 			cs_LEDS <= '1';
 		end if;
