@@ -42,22 +42,8 @@ begin
 
 	end process dff;
 
+
 	rddata <= s_read when (s_enable = '1') else (others=>'Z');
-
-	--triStateBuffer : process(clk) is
-	--begin
-
-	--	if rising_edge(clk) then
-	--		if(s_enable = '1') then
-	--			rddata <= s_read;
-	--		else
-	--			rddata <= (others=>'Z');
-	--		end if;
-	--		--rddata <= s_read when (s_enable = '1') else (others=>'Z');
-	--	end if;
-
-	--end process triStateBuffer;
-
 
 
 	writeRAM : process(clk) is
